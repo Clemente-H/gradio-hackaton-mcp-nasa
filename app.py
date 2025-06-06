@@ -16,7 +16,7 @@ def create_app():
     # Create Gradio interface
     with gr.Blocks(
         title="NASA Space Explorer Assistant",
-        theme=gr.themes.Space()
+        theme=gr.themes.Soft()
     ) as app:
         
         gr.Markdown("""
