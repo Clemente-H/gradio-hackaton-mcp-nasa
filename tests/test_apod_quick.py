@@ -1,4 +1,3 @@
-# test_apod_quick.py
 """Quick test script for APOD MCP - Run this to verify everything works."""
 
 import asyncio
@@ -7,7 +6,9 @@ import os
 from datetime import datetime, timedelta
 
 # Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+project_root = os.path.dirname(os.path.abspath(__file__))
+src_path = os.path.join(project_root, '..', 'src')
+sys.path.insert(0, src_path)
 
 async def test_apod_mcp():
     """Test APOD MCP functionality."""
@@ -16,9 +17,9 @@ async def test_apod_mcp():
     print("=" * 50)
     
     try:
-        # Import after adding to path
-        from src.mcps.apod_mcp import APODMCP
-        from src.config import Config
+        # Import from corrected paths
+        from mcps.apod_mcp import APODMCP
+        from config import Config
         
         # Verify config
         print(f"📡 NASA API Key: {'✅ Set' if Config.NASA_API_KEY != 'DEMO_KEY' else '⚠️  Using DEMO_KEY'}")
@@ -120,6 +121,8 @@ async def test_apod_mcp():
     
     except Exception as e:
         print(f"❌ Unexpected Error: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 
