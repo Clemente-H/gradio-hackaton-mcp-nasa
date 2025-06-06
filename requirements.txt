@@ -1,0 +1,7 @@
+gradio>=4.44.0         # Con soporte MCP nativo
+pydantic>=2.5.0       # Validación de datos y schemas
+requests>=2.31.0      # Para llamadas a NASA APIs
+python-dateutil>=2.8.2  # Manejo de fechas
+python-dotenv>=1.0.0  # Environment management
+httpx>=0.25.0         # Alternative async support
+tenacity>=8.2.0       # Retry logic para APIs
