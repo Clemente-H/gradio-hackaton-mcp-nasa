@@ -214,13 +214,13 @@ def create_app():
                     
                     # Event handlers
                     msg.submit(
-                        lambda msg, hist: asyncio.run(respond(msg, hist)),
+                        respond,
                         inputs=[msg, chatbot],
                         outputs=[chatbot, msg]
                     )
-                    
+
                     send_btn.click(
-                        lambda msg, hist: asyncio.run(respond(msg, hist)),
+                        respond,
                         inputs=[msg, chatbot],
                         outputs=[chatbot, msg]
                     )
