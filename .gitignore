@@ -1,3 +1,4 @@
 .env
 *.pyc
 *.cpython-311.pyc
+.gradio/certificate.pem
