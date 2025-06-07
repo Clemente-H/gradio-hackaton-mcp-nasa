@@ -48,7 +48,8 @@ async def init_servers():
         # Initialize chat agent (if Mistral API key available)
         if Config.MISTRAL_API_KEY:
             print("🤖 Initializing Chat Agent...")
-            chat_agent = NASAChatAgent()
+            # Pass the MCP server instance directly
+            chat_agent = NASAChatAgent(mcp_server=mcp_server)
             success = await chat_agent.initialize()
             if success:
                 print("✅ Chat Agent initialized with LlamaIndex + Mistral")
@@ -145,7 +146,7 @@ def create_app():
                         elem_classes=["chat-container"],
                         height=500,
                         show_label=False,
-                        bubble_full_width=False
+                        type="messages"  # Fix the warning
                     )
                     
                     with gr.Row():
@@ -180,20 +181,25 @@ def create_app():
                         
                         if not chat_agent:
                             error_msg = "❌ Chat agent not available. Please check Mistral API key configuration."
-                            return history + [(message, error_msg)], ""
+                            # For messages format: list of dicts with 'role' and 'content'
+                            return history + [
+                                {"role": "user", "content": message},
+                                {"role": "assistant", "content": error_msg}
+                            ], ""
                         
                         # Add user message to history
-                        history = history + [(message, None)]
+                        history = history + [{"role": "user", "content": message}]
                         
                         # Get AI response
                         try:
                             print(f"🤖 Processing: {message}")
                             response = await chat_agent.chat(message)
-                            history[-1] = (message, response)
+                            # Add assistant response
+                            history.append({"role": "assistant", "content": response})
                             print(f"✅ Response generated ({len(response)} chars)")
                         except Exception as e:
                             error_response = f"❌ Sorry, I encountered an error: {str(e)}"
-                            history[-1] = (message, error_response)
+                            history.append({"role": "assistant", "content": error_response})
                             print(f"❌ Chat error: {str(e)}")
                         
                         return history, ""
