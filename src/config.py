@@ -10,9 +10,14 @@ class Config:
     NASA_API_KEY: str = os.getenv("NASA_API_KEY", "DEMO_KEY")
     NASA_BASE_URL: str = "https://api.nasa.gov"
     
+    # LLM Configuration
+    MISTRAL_API_KEY: str = os.getenv("MISTRAL_API_KEY", "")
+    MISTRAL_MODEL: str = "mistral-large-latest"
+    MISTRAL_BASE_URL: str = "https://api.mistral.ai/v1"
+    
     # Rate limiting
-    MAX_REQUESTS_PER_HOUR: int = 950  # Leave buffer under NASA's 1000/hour limit
-    REQUEST_TIMEOUT: int = 30  # seconds
+    MAX_REQUESTS_PER_HOUR: int = 950
+    REQUEST_TIMEOUT: int = 30
     
     # Application Settings
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
@@ -24,8 +29,11 @@ class Config:
         if cls.NASA_API_KEY == "DEMO_KEY":
             print("⚠️  Using DEMO_KEY - consider using your personal NASA API key")
         
+        if not cls.MISTRAL_API_KEY:
+            print("⚠️  MISTRAL_API_KEY not set - chat features will be disabled")
+            return False
+        
         return cls.NASA_API_KEY is not None
-
 # API Endpoints
 class NASA_ENDPOINTS:
     """NASA API endpoints."""
