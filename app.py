@@ -561,7 +561,7 @@ async def main():
     # Launch the application
     app.launch(
         server_name="0.0.0.0",
-        server_port=8000,
+        server_port=7860,
         share=True,  # Enable sharing for Hugging Face Spaces
         show_error=True,
         quiet=False
